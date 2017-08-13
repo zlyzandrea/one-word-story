@@ -1,2 +1,10 @@
-# webpack-template
-An empty JS project with `webpack-dev-server` and `es2015-preset`
+# One-word-story
+
+Started with [webpack-template](https://github.com/vorpus/webpack-template) boilerplate.
+
+##To do
+- [ ] color entries by user
+- [ ] rate limit users
+- [ ] maximum of one word per entry
+- [ ] garbage collect words that have gone "off screen"
+- [ ] word safe list
