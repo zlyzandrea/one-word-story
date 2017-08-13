@@ -50,4 +50,8 @@ function init() {
   document
     .getElementById('nextword')
     .addEventListener('submit', addEntry);
+
+    document
+    .getElementById('nextword-input')
+    .focus();
 }

@@ -1,0 +1,42 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 48px;
+  overflow: hidden;
+}
+
+.title {
+  z-index: 5;
+}
+
+.content {
+  background-color: lightblue;
+  height: 100%;
+  padding: 5%;
+  padding-bottom: 0;
+}
+
+.content-text {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 5%;
+}
+
+.output {
+  display: inline;
+}
+
+input {
+  font-size: 48px;
+  width: 40%;
+  background-color: transparent;
+  border: 0px solid;
+  border-bottom: 1px solid black;
+}
+
+input:focus {
+  outline: none;
+}
+
+#nextword {
+  display: inline;
+}
