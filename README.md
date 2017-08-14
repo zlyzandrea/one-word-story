@@ -4,7 +4,7 @@ Started with [webpack-template](https://github.com/vorpus/webpack-template) boil
 
 ##To do
 - [x] color entries by user
-- [ ] rate limit users
-- [ ] maximum of one word per entry
+- [x] rate limit users (artificially)
+- [x] maximum of one word per entry
 - [ ] garbage collect words that have gone "off screen"
 - [ ] word safe list

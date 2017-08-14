@@ -23,7 +23,8 @@ firebase
   .auth()
   .signInAnonymously()
   .catch((err) => {
-    console.warn(err);
+    alert(`Couldn't authenticate. Please refresh.`);
+    location.reload();
   });
 
 firebase
@@ -32,6 +33,9 @@ firebase
     if (user) {
       console.warn('user set', user.uid);
       uid = user.uid;
+
+      const wordInput = document.getElementById('nextword-input');
+      wordInput.style.color = makeColorFromString(uid);
     }
   })
 
@@ -76,9 +80,12 @@ function startLoadingSpinner() {
 
 function wordAdded() {
   const wordInput = document.getElementById('nextword-input');
-  wordInput.disabled = false;
 
-  wordInput.focus();
+  setTimeout(() => {
+    wordInput.disabled = false;
+
+    wordInput.focus();
+  }, 5000);
 }
 
 function init() {
@@ -87,6 +94,13 @@ function init() {
     .addEventListener('submit', addEntry);
 
   const inputElement = document.getElementById('nextword-input')
+
+  inputElement.addEventListener('keypress', (k) => {
+    if (k.keyCode === 0 || k.keyCode === 32) {
+      k.preventDefault();
+    }
+  })
+
   inputElement.focus();
 
   inputElement.onblur = () => {inputElement.focus()};

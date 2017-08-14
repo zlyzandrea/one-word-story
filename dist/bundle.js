@@ -14701,13 +14701,17 @@ var config = {
 var db = firebase.initializeApp(config).database().ref('onewordstory-authors');
 
 firebase.auth().signInAnonymously().catch(function (err) {
-  console.warn(err);
+  alert('Couldn\'t authenticate. Please refresh.');
+  location.reload();
 });
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     console.warn('user set', user.uid);
     uid = user.uid;
+
+    var wordInput = document.getElementById('nextword-input');
+    wordInput.style.color = (0, _makeColor.makeColorFromString)(uid);
   }
 });
 
@@ -14751,15 +14755,25 @@ function startLoadingSpinner() {
 
 function wordAdded() {
   var wordInput = document.getElementById('nextword-input');
-  wordInput.disabled = false;
 
-  wordInput.focus();
+  setTimeout(function () {
+    wordInput.disabled = false;
+
+    wordInput.focus();
+  }, 5000);
 }
 
 function init() {
   document.getElementById('nextword').addEventListener('submit', addEntry);
 
   var inputElement = document.getElementById('nextword-input');
+
+  inputElement.addEventListener('keypress', function (k) {
+    if (k.keyCode === 0 || k.keyCode === 32) {
+      k.preventDefault();
+    }
+  });
+
   inputElement.focus();
 
   inputElement.onblur = function () {
