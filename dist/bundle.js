@@ -14681,9 +14681,13 @@ var _lodash = __webpack_require__(155);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _makeColor = __webpack_require__(156);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var uid = void 0;
 
 var config = {
   apiKey: "AIzaSyB7qB3Jxprx4-AK539MPVQbsH9jnX3x-bQ",
@@ -14694,16 +14698,33 @@ var config = {
   messagingSenderId: "518960973503"
 };
 
-var db = firebase.initializeApp(config).database().ref('onewordstory');
+var db = firebase.initializeApp(config).database().ref('onewordstory-authors');
+
+firebase.auth().signInAnonymously().catch(function (err) {
+  console.warn(err);
+});
+
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    console.warn('user set', user.uid);
+    uid = user.uid;
+  }
+});
 
 db.on('value', function (snapshot) {
   var currentStory = [];
   var wordVals = snapshot.val();
-  (0, _lodash2.default)(wordVals, function (v, k) {
-    currentStory.push(v);
-  });
+
   var output = document.getElementsByClassName('output')[0];
-  output.innerHTML = currentStory.join(' ');
+  output.innerHTML = '';
+
+  (0, _lodash2.default)(wordVals, function (v, k) {
+    var newWord = document.createElement('span');
+    newWord.innerHTML = v.word;
+    newWord.style.color = (0, _makeColor.makeColorFromString)(v.author);
+
+    output.appendChild(newWord);
+  });
 });
 
 document.addEventListener("DOMContentLoaded", init);
@@ -14714,21 +14735,36 @@ function addEntry(e) {
   var wordInput = document.getElementById('nextword-input');
   var nextWord = wordInput.value;
   wordInput.value = "";
-  db.push(nextWord, wordAdded);
+
+  db.push().set({
+    author: uid,
+    word: nextWord
+  }, wordAdded);
 
   e.preventDefault();
 }
 
-function startLoadingSpinner() {}
+function startLoadingSpinner() {
+  var wordInput = document.getElementById('nextword-input');
+  wordInput.disabled = true;
+}
 
 function wordAdded() {
-  console.warn('success');
+  var wordInput = document.getElementById('nextword-input');
+  wordInput.disabled = false;
+
+  wordInput.focus();
 }
 
 function init() {
   document.getElementById('nextword').addEventListener('submit', addEntry);
 
-  document.getElementById('nextword-input').focus();
+  var inputElement = document.getElementById('nextword-input');
+  inputElement.focus();
+
+  inputElement.onblur = function () {
+    inputElement.focus();
+  };
 }
 
 /***/ }),
@@ -27316,6 +27352,30 @@ function identity(value) {
 
 module.exports = forEach;
 
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.makeColorFromString = makeColorFromString;
+function makeColorFromString(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var color = '#';
+  for (var _i = 0; _i < 3; _i++) {
+    var value = hash >> _i * 8 & 0xFF;
+    color += ('00' + value.toString(16)).substr(-2);
+  }
+  return color;
+}
 
 /***/ })
 /******/ ]);

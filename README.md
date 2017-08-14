@@ -3,7 +3,7 @@
 Started with [webpack-template](https://github.com/vorpus/webpack-template) boilerplate.
 
 ##To do
-- [ ] color entries by user
+- [x] color entries by user
 - [ ] rate limit users
 - [ ] maximum of one word per entry
 - [ ] garbage collect words that have gone "off screen"
