@@ -1,5 +1,7 @@
 # One-word-story
 
+[live](https://vorpus.github.io/one-word-story)
+
 Started with [webpack-template](https://github.com/vorpus/webpack-template) boilerplate.
 
 ##To do
